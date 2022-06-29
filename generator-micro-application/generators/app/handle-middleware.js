@@ -3,18 +3,18 @@ const { middleware } = require('@companydotcom/micro-application-core');
 module.exports.getAvailableMiddleware = () => {
   const middlewareNames = Object.keys(middleware);
   return middlewareNames;
-}
+};
 
 const defaultMiddlewareSettings = ` {
       isBulk: [true, false],
       eventType: [\'fetch\', \'transition\', \'webhook\'],
-    },`
+    },`;
 
 module.exports.generateMiddlewareIndex = (customMiddlewareNames, microAppMiddlewareInUse) => {
   let imports = ``;
   let exports = '';
   if (microAppMiddlewareInUse.length) {
-    imports = imports.concat(`import { middleware } from '@companydotcom/micro-application-core'\n`)
+    imports = imports.concat(`import { middleware } from '@companydotcom/micro-application-core'\n`);
   }
 
   microAppMiddlewareInUse.forEach((name) => {
@@ -42,5 +42,5 @@ module.exports.generateMiddlewareIndex = (customMiddlewareNames, microAppMiddlew
   return {
     imports,
     exports,
-  }
-}
+  };
+};

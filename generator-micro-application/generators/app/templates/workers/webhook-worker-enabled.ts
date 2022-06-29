@@ -24,7 +24,7 @@ export default async ({ message, attributes, serviceConfigData }: WorkerArgs) =>
   // It is the responsibility of the webhook worker to determine the platform user that a given webhook trigger is relevant to and issue the appropriate platform events.
   // webhook health events are not specific to a particular user
 
-  console.log('webhookWorker: INFO: Received a call to work.');
+  console.log('webhook-worker: INFO: Received a call to work.');
   console.log(`message => ${JSON.stringify(message, null, 2)})`);
   console.log(`attributes => ${JSON.stringify(attributes, null, 2)},`);
   console.log(`serviceConfigData => ${JSON.stringify(serviceConfigData, null, 4)}`);
@@ -57,6 +57,6 @@ export default async ({ message, attributes, serviceConfigData }: WorkerArgs) =>
         status: 'connected', // or "disconnected", if webhook could not be subscribed
       };
     default:
-      throw new Error(`webhookWorker: ERROR: metadata.eventType not recognized: ${message.metadata.eventType}`);
+      throw new Error(`webhook-worker: ERROR: metadata.eventType not recognized: ${message.metadata.eventType}`);
   }
 };

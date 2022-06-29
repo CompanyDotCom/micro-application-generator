@@ -28,9 +28,9 @@ const {
   resourceSubscriptionConfigs,
   queueRefPolicyConfigs,
   iamSqsResources,
-} = require('./slsConfigOptions');
+} = require('./sls-config-options');
 
-const { generateMiddlewareIndex } = require('./handleMiddleware');
+const { generateMiddlewareIndex } = require('./handle-middleware');
 
 class microAppGenerator extends Generator {
   constructor(args, opts) {
@@ -70,7 +70,7 @@ class microAppGenerator extends Generator {
     this.addMiddleware = () => {
       if (this.answers.getMiddlewareName) {
         this.fs.copyTpl(
-          this.templatePath('middleware/template.js'),
+          this.templatePath('middleware/template.ts'),
           this.destinationPath(`middleware/${this.answers.getMiddlewareName}.js`),
           {
             middlewareName: this.answers.getMiddlewareName,
@@ -79,7 +79,7 @@ class microAppGenerator extends Generator {
       }
       this.fs.copyTpl(
         this.templatePath('middleware/index.txt'),
-        this.destinationPath('middleware/index.js'),
+        this.destinationPath('middleware/index.ts'),
         generateMiddlewareIndex(
           [...this.getCurrentMiddlewareNames(), this.answers.getMiddlewareName],
           this.answers.chooseExistingMiddleware || [],
@@ -105,11 +105,12 @@ class microAppGenerator extends Generator {
       if (this.proceed === false) {
         return;
       }
-      this.fs.copy(this.templatePath('workers/fetchWorker.js'), this.destinationPath('workers/fetchWorker.js'));
+      this.fs.copy(this.templatePath('workers/fetch-worker.ts'), this.destinationPath('workers/fetch-worker.ts'));
       this.fs.copy(
-        this.templatePath('workers/transitionWorker.js'),
-        this.destinationPath('workers/transitionWorker.js'),
+        this.templatePath('workers/transition-worker.ts'),
+        this.destinationPath('workers/transition-worker.ts'),
       );
+      this.fs.copy(this.templatePath('types'), this.destinationPath('types'));
       this.fs.copy(this.templatePath('database.config.json'), this.destinationPath('database.config.json'));
       this.fs.copyTpl(this.templatePath('handler.js'), this.destinationPath('handler.js'), {
         throttlingOn: this.answers.whichThrottle && this.answers.whichThrottle.length !== 0 ? true : false,
@@ -131,8 +132,8 @@ class microAppGenerator extends Generator {
         optionalQueuePolicies: getSlsConfigOptions(queueRefPolicyConfigs, this.answers),
       });
       this.fs.copyTpl(
-        this.templatePath('tests/sampleMessage.json'),
-        this.destinationPath('tests/sampleMessage.json'),
+        this.templatePath('tests/sample-message.json'),
+        this.destinationPath('tests/sample-message.json'),
         this.answers,
       );
       this.fs.copyTpl(
@@ -143,14 +144,14 @@ class microAppGenerator extends Generator {
       mkdirp.sync(`${this.destinationRoot()}/services`);
       this.fs.copyTpl(
         this.templatePath(
-          this.answers.enableWebhook ? 'workers/webhookWorker-enabled.js' : 'workers/webhookWorker-disabled.js',
+          this.answers.enableWebhook ? 'workers/webhook-worker-enabled.ts' : 'workers/webhook-worker-disabled.ts',
         ),
-        this.destinationPath('workers/webhookWorker.js'),
+        this.destinationPath('workers/webhook-worker.ts'),
       );
       mkdirp.sync(`${this.destinationRoot()}/middleware`);
       this.fs.copyTpl(
         this.templatePath('middleware/index.txt'),
-        this.destinationPath('middleware/index.js'),
+        this.destinationPath('middleware/index.ts'),
         generateMiddlewareIndex(this.getCurrentMiddlewareNames(), this.answers.chooseExistingMiddleware || []),
       );
     };

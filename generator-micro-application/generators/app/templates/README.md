@@ -3,8 +3,8 @@
 The only files to edit are:
 
 1. 'env.yml' which has its own comments to describe the parameters,
-2. 'workers/fetchWorker' to implement the business logic of a fetch call,
-3. 'workers/transitionWorker' to implement the business logic of a transition call,
+2. 'workers/fetch-worker' to implement the business logic of a fetch call,
+3. 'workers/transition-worker' to implement the business logic of a transition call,
 4. 'services' folder to add any required service function files for the workers,
 5. 'tests' folder to add any unit tests, vsCode tests.
 6. 'database.config.json' file to add any specific settings that you would like

@@ -1,6 +1,6 @@
 // See: https://github.com/SBoudrias/Inquirer.js#question for documentation - this is the library yeoman uses under the hood
 
-const { getAvailableMiddleware } = require("./handleMiddleware");
+const { getAvailableMiddleware } = require('./handle-middleware');
 
 const whenBulkInUse = (ans) => ans.bulkFetch || ans.bulkTransition;
 
@@ -11,17 +11,18 @@ const confirmStart = {
   type: 'confirm',
   name: 'start',
   message:
-    "Hi. Welcome to company microApp generator. Enter 'Y' and hit 'Return' to continue and answer a few questions to enable me to generate the project for you.",
+    "Hi. Welcome to the Company.com micro application generator. Enter 'Y' and hit 'Return' to continue and answer a few questions to enable me to generate the project for you.",
   store: false,
 };
 
 const checkExisting = {
   type: 'list',
   name: 'generateFullService',
-  message: 'It looks like this is a previously generated service, would you like to regenerate the entire service - or would you just like to add a middleware?',
+  message:
+    'It looks like this is a previously generated service, would you like to regenerate the entire service - or would you just like to add a middleware?',
   choices: ['Generate Full Service', 'Add Custom Middleware'],
-  when: (ans) => ans.start
-}
+  when: (ans) => ans.start,
+};
 
 const getServiceName = {
   type: 'input',
@@ -136,7 +137,7 @@ const chooseExistingMiddleware = {
 const getMiddlewareName = {
   type: 'input',
   name: 'getMiddlewareName',
-  message: 'What would you like to name your middleware?'
+  message: 'What would you like to name your middleware?',
 };
 
 module.exports = {

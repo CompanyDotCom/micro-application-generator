@@ -6,9 +6,9 @@ import {
   httpReqHandler,
   useMicroApp,
 } from '@companydotcom/micro-application-core';
-import fMsgHandler from './workers/fetchWorker';
-import tMsgHandler from './workers/transitionWorker';
-import webhookWorker from './workers/webhookWorker';
+import fMsgHandler from './workers/fetch-worker';
+import tMsgHandler from './workers/transition-worker';
+import webhookWorker from './workers/webhook-worker';
 import { microAppMiddleware } from './middleware';
 
 AWS.config.update({ region: process.env.region });
@@ -74,7 +74,7 @@ export const bulkTransitionHandler = async event => useMicroApp(
 export const webhookHandler = event => useMicroApp(
   AWS,
   { ...sharedMicroAppConfig, isBulk: false, eventType: 'webhook' },
-  webhookWorker,
+  webhook-worker,
   determineMiddleware(microAppMiddleware, 'webhook', false),
 )(event);
 
