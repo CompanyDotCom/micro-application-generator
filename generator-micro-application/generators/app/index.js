@@ -30,9 +30,7 @@ const {
   iamSqsResources,
 } = require('./slsConfigOptions');
 
-const {
-  generateMiddlewareIndex,
-} = require('./handleMiddleware');
+const { generateMiddlewareIndex } = require('./handleMiddleware');
 
 class microAppGenerator extends Generator {
   constructor(args, opts) {
@@ -66,15 +64,13 @@ class microAppGenerator extends Generator {
 
     this.getCurrentMiddlewareNames = () => {
       const middlewareFiles = fs.readdirSync(this.destinationPath('middleware'));
-      return middlewareFiles.filter(fileName => fileName !== 'index.js').map(file => file.split('.')[0]);
-    }
+      return middlewareFiles.filter((fileName) => fileName !== 'index.js').map((file) => file.split('.')[0]);
+    };
 
     this.addMiddleware = () => {
       if (this.answers.getMiddlewareName) {
         this.fs.copyTpl(
-          this.templatePath(
-            'middleware/template.js',
-          ),
+          this.templatePath('middleware/template.js'),
           this.destinationPath(`middleware/${this.answers.getMiddlewareName}.js`),
           {
             middlewareName: this.answers.getMiddlewareName,
@@ -82,10 +78,12 @@ class microAppGenerator extends Generator {
         );
       }
       this.fs.copyTpl(
-        this.templatePath(
-          'middleware/index.txt',
+        this.templatePath('middleware/index.txt'),
+        this.destinationPath('middleware/index.js'),
+        generateMiddlewareIndex(
+          [...this.getCurrentMiddlewareNames(), this.answers.getMiddlewareName],
+          this.answers.chooseExistingMiddleware || [],
         ),
-        this.destinationPath('middleware/index.js'), generateMiddlewareIndex([...this.getCurrentMiddlewareNames(), this.answers.getMiddlewareName], this.answers.chooseExistingMiddleware || []),
       );
     };
 
@@ -113,7 +111,9 @@ class microAppGenerator extends Generator {
         this.destinationPath('workers/transitionWorker.js'),
       );
       this.fs.copy(this.templatePath('database.config.json'), this.destinationPath('database.config.json'));
-      this.fs.copyTpl(this.templatePath('handler.js'), this.destinationPath('handler.js'), { throttlingOn: this.answers.whichThrottle && this.answers.whichThrottle.length !== 0 ? true : false });
+      this.fs.copyTpl(this.templatePath('handler.js'), this.destinationPath('handler.js'), {
+        throttlingOn: this.answers.whichThrottle && this.answers.whichThrottle.length !== 0 ? true : false,
+      });
       this.fs.copy(this.templatePath('webpack.config.js'), this.destinationPath('webpack.config.js'));
       this.fs.copy(this.templatePath('.eslintrc.js'), this.destinationPath('.eslintrc.js'));
       this.fs.copy(this.templatePath('.gitignore'), this.destinationPath('.gitignore'));
@@ -149,10 +149,9 @@ class microAppGenerator extends Generator {
       );
       mkdirp.sync(`${this.destinationRoot()}/middleware`);
       this.fs.copyTpl(
-        this.templatePath(
-          'middleware/index.txt',
-        ),
-        this.destinationPath('middleware/index.js'), generateMiddlewareIndex(this.getCurrentMiddlewareNames(), this.answers.chooseExistingMiddleware || []),
+        this.templatePath('middleware/index.txt'),
+        this.destinationPath('middleware/index.js'),
+        generateMiddlewareIndex(this.getCurrentMiddlewareNames(), this.answers.chooseExistingMiddleware || []),
       );
     };
   }
@@ -162,10 +161,7 @@ module.exports = class extends microAppGenerator {
   async prompting() {
     const preExistingService = fs.existsSync(this.destinationPath('package.json'));
 
-    this.startUp = await this.prompt(preExistingService ? [
-      confirmStart,
-      checkExisting,
-    ] : [confirmStart]);
+    this.startUp = await this.prompt(preExistingService ? [confirmStart, checkExisting] : [confirmStart]);
 
     if (this.startUp.start) {
       if (!preExistingService || this.startUp.generateFullService === 'Generate Full Service') {
@@ -187,22 +183,20 @@ module.exports = class extends microAppGenerator {
           chooseExistingMiddleware,
         ]);
         this.answers.safeThrottleLimit = this.answers.safeThrottleLimit ? this.answers.safeThrottleLimit / 100 : 0.8;
-        this.answers.reserveCapForDirect = this.answers.reserveCapForDirect ? this.answers.reserveCapForDirect / 100 : 0.3;
+        this.answers.reserveCapForDirect = this.answers.reserveCapForDirect
+          ? this.answers.reserveCapForDirect / 100
+          : 0.3;
       } else if (this.startUp.generateFullService === 'Add Custom Middleware') {
         this.type = 'middleware';
-        this.answers = await this.prompt([
-          chooseExistingMiddleware,
-          getMiddlewareName,
-        ]);
+        this.answers = await this.prompt([chooseExistingMiddleware, getMiddlewareName]);
       }
     } else {
       this.type = 'none';
     }
   }
 
-
   writing() {
-    switch(this.type) {
+    switch (this.type) {
       case 'fullService':
         this.finishProvisioning();
         break;

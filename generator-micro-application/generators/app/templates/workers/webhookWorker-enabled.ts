@@ -1,9 +1,11 @@
 import { eventStream as es, utils } from 'company-core';
 
-const { publishTransition } = es;
-const { setUserVendorIdMap, getUser, getUserIdByVendorId } = utils;
+import { WorkerArgs } from '../types';
 
-export default async ({ message, attributes, serviceConfigData }) => {
+// const { publishTransition } = es;
+// const { setUserVendorIdMap, getUser, getUserIdByVendorId } = utils;
+
+export default async ({ message, attributes, serviceConfigData }: WorkerArgs) => {
   /*
     Expect your webhook worker to receive a semi-standardized message
     {

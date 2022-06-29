@@ -1,3 +1,5 @@
+import { WorkerArgs } from '../types';
+
 export default async ({
   message,
   attributes,
@@ -5,8 +7,8 @@ export default async ({
   serviceAccountData,
   serviceUserData,
   internalMicroAppData,
-  sharedMicroAppData
-}) => {
+  sharedMicroAppData,
+}: WorkerArgs) => {
   // Look out for user data, account data, product data in message.context
   // Service specific config data that was stored during initial setup will be
   // available in serviceConfigData. Any service specific user account data that
@@ -46,16 +48,16 @@ export default async ({
             {
               key: '',
               value: {},
-              readAccess: []
-            }
+              readAccess: [],
+            },
           ],
           account: [
             {
               key: '',
               value: {},
-              readAccess: []
-            }
-          ]
+              readAccess: [],
+            },
+          ],
         },
         // extraStatus: '', // custom status to send out in addition to the default pass/ fail for custom responders to catch. Add the key only if required
         // crmData: {}, // crm data is used to pass custom data directly to Salesforce.  Add key only if required.

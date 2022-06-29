@@ -1,3 +1,5 @@
+import { WorkerArgs } from '../types';
+
 export default async ({
   message,
   attributes,
@@ -5,8 +7,8 @@ export default async ({
   serviceAccountData,
   serviceUserData,
   internalMicroAppData,
-  sharedMicroAppData
-}) => {
+  sharedMicroAppData,
+}: WorkerArgs) => {
   // Look out for user data, account data, product data in message.context
   // Service specific config data that was stored during initial setup will be
   // available in serviceConfigData. Any service specific user account data that

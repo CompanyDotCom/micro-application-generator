@@ -180,15 +180,29 @@ Message attributes that will be delivered to the worker:
 
 ```
 {
-    res: 'Here is where you send the response data.         This can also be an object',
+    res: 'Here is where you send the response data. This can also be an object',
     serviceAccountData: {}, // saved under vendorData[vendorSlug] on Account
+    microAppData: {
+      user: [
+        {
+          key: '',
+          value: {},
+          readAccess: []
+        }
+      ],
+      account: [
+        {
+          key: '',
+          value: {},
+          readAccess: []
+        }
+      ]
+    },
     serviceUserData: {}, // saved under vendorData[vendowSlug] on User
     extraStatus: '', // custom status to send out in addition to the default pass/ fail for custom responders to catch. Add the key only if required
-    crmData: {}, // crm data is used to pass custom data directly to Salesforce or other configured crm providers.  Add key only if required.  Triggers microApp-core to send a crm event on event-bus with this data as the payload
+    crmData: {}, // crm data is used to pass custom data directly to Salesforce or other configured crm providers.  Add key only if required.  Triggers micro-application-core to send a crm event on event-bus with this data as the payload
 }
 ```
-
-
 
 ## Testing things right away
 

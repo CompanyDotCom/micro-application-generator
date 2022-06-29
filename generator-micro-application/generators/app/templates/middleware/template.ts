@@ -1,3 +1,5 @@
+import { MiddlewareAfterRequest, MiddlewareBeforeRequest, MiddlewareOnErrorRequest, MiddlewareOptions } from '../types';
+
 /**
  * @typedef Options
  * @property {boolean} isBulk
@@ -22,14 +24,18 @@
  * @param {Options} options
  * @returns
  */
-export default options => {
+export default (options: MiddlewareOptions) => {
+  console.log('🚀 ~ file: template.ts ~ line 28 ~ options', options);
   const middlewareName = '<%- middlewareName %>';
+  console.log('🚀 ~ file: template.ts ~ line 29 ~ middlewareName', middlewareName);
+
   /**
    * This code will be executed before your worker.  To supply additional data with your message to the worker, assign it to the microApp message object
    * @param {Array<MicroAppMessage>} request.event
    * @returns {void}
    */
-  const before = request => {
+  const before = (request: MiddlewareBeforeRequest) => {
+    console.log('🚀 ~ file: template.ts ~ line 38 ~ request', request);
   };
 
   /**
@@ -38,8 +44,8 @@ export default options => {
    * @param {Array<HandledMicroAppMessage>?} request.response
    * @returns {void}
    */
-  const after = request => {
-
+  const after = (request: MiddlewareAfterRequest) => {
+    console.log('🚀 ~ file: template.ts ~ line 47 ~ request', request);
   };
 
   /**
@@ -49,8 +55,8 @@ export default options => {
    * @param {Array<MicroAppMessage>?} request.response
    * @returns {void}
    */
-  const onError = request => {
-
+  const onError = (request: MiddlewareOnErrorRequest) => {
+    console.log('🚀 ~ file: template.ts ~ line 57 ~ request', request);
   };
 
   return {
