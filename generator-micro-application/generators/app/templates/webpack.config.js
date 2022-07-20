@@ -1,3 +1,4 @@
+const path = require('path');
 const slsWebpack = require('serverless-webpack');
 const nodeExternals = require('webpack-node-externals');
 
@@ -20,11 +21,6 @@ module.exports = {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
     cacheWithContext: false,
-  },
-  output: {
-    libraryTarget: 'commonjs',
-    path: path.join(__dirname, '.webpack'),
-    filename: '[name].js',
   },
   // Run babel on all .js files and skip those in node_modules
   module: {

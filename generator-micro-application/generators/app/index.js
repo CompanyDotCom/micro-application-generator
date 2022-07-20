@@ -116,8 +116,12 @@ class microAppGenerator extends Generator {
         throttlingOn: this.answers.whichThrottle && this.answers.whichThrottle.length !== 0 ? true : false,
       });
       this.fs.copy(this.templatePath('webpack.config.js'), this.destinationPath('webpack.config.js'));
+      this.fs.copy(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'));
       this.fs.copy(this.templatePath('.eslintrc.js'), this.destinationPath('.eslintrc.js'));
       this.fs.copy(this.templatePath('.gitignore'), this.destinationPath('.gitignore'));
+      this.fs.copy(this.templatePath('.eslintignore'), this.destinationPath('.eslintignore'));
+      this.fs.copy(this.templatePath('.prettierignore'), this.destinationPath('.prettierignore'));
+      this.fs.copy(this.templatePath('.prettierrc.js'), this.destinationPath('.prettierrc.js'));
       this.fs.copy(this.templatePath('README.md'), this.destinationPath('README.md'));
       this.fs.copyTpl(this.templatePath('package.json'), this.destinationPath('package.json'), {
         appName: this.answers.service,
@@ -141,6 +145,8 @@ class microAppGenerator extends Generator {
         this.destinationPath('.vscode/launch.json'),
         this.answers,
       );
+      this.fs.copy(this.templatePath('.vscode/extensions.json'), this.destinationPath('.vscode/extensions.json'));
+      this.fs.copy(this.templatePath('.vscode/settings.json'), this.destinationPath('.vscode/settings.json'));
       mkdirp.sync(`${this.destinationRoot()}/services`);
       this.fs.copyTpl(
         this.templatePath(
