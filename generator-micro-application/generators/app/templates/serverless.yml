@@ -78,6 +78,8 @@ functions:
     environment:
       stage: ${self:custom.stage}
     handler: handler.fetchHandler
+    dependsOn:
+      - directFQCreate
     events:
       - sqs:
           arn: "arn:aws:sqs:${self:custom.region}:${self:custom.config.accountId}:${self:custom.config.service}-fetchq"
@@ -87,6 +89,8 @@ functions:
     environment:
       stage: ${self:custom.stage}
     handler: handler.directTransitionHandler
+    dependsOn:
+      - directTQCreate
     events:
       - sqs:
           arn: "arn:aws:sqs:${self:custom.region}:${self:custom.config.accountId}:${self:custom.config.service}-directtq"
